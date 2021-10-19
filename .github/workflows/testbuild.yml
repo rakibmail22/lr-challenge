@@ -1,8 +1,10 @@
 name: Test and Build
 
 on:
-  pull_request:
+  push:
     branches: [ develop ]
+  pull_request:
+      branches: [ develop ]
 
 jobs:
   build:
@@ -16,7 +18,7 @@ jobs:
         with:
           java-version: 17
 
-      - name: Cache Maven Dependencies
+      - name: Cache Dependencies
         uses: actions/cache@v2
         env:
           cache-name: lr-chl-cat-grdl-cache
@@ -27,4 +29,4 @@ jobs:
             ${{ runner.os }}-grdl-${{ hashFiles('**/build.gradle') }}
 
       - name: Gradle Build
-        run: gradle clean build
+        run: git branch
