@@ -27,4 +27,8 @@ jobs:
             ${{ runner.os }}-grdl-${{ hashFiles('**/build.gradle') }}
 
       - name: Gradle Build
+<<<<<<< HEAD
         run: gradle clean build
+=======
+        run: gradle clean build
+>>>>>>> 7e44d9f... Added test and build workfloow for ci
