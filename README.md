@@ -9,7 +9,7 @@ The work in this repository demonstrate standard ways to write rest api using sp
 3. Configure separate db for dev and test environment
 4. Integration tests to validate domain mappings
 5. Configure Github project & CI script to use Github Action as CI Tool
-#### Design Choices
+#### Design Choices - Phase 1
 1. Regular Spring MVC instead of Spring reactive webflux. 
    One driving factor of not choosing webflux is lack of reactive support in hibernate.
    As this project is time limited with very limited resource (Only one developer) I chose to use hibernate for the ease of domain
@@ -35,4 +35,21 @@ of different `ItemType` we can create separate tables for different item types w
 2. Integration test for Endpoint Controllers
 3. API validation and exception handling
 4. Added request param logging interceptor
-   
+
+#### Design Choices - Phase 2
+1. Used Spring Data JPA as repository
+2. There is a scope for improvement while `Category` and `Item` but initially to keep the implementation simple didn't
+use any raw sql or jpql directly. Need to monitor constantly and if we see hibenate generating excessive select queries for
+selecting the child elements we can replace the Hibernate Object loading with optimized jpql
+3. The response of API endpoints could be more decorated and beautified. Also a lot more business validation's and formatted 
+validation message could be added. We can use HATEOS for decorate the API response further and make it more descriptive.
+4. Api documentationss can be improved a lot by adding more Swagger config
+5. Logging can be improved a bit
+6. All the API endpoint should be protected (ideally with jwt / oauth token). But this should fall into a much broader scope
+in terms of both authentication and authorization
+7. Cors origin request should be restricted and api should be able to connect from a specific origin 
+(if not prepared to distribute in mass population). Spring Security has a lot of simple ways to add these restriction.
+8. Aother approach of resource create/update/delete would be make these process asynchronous in background and provide client
+with a `HTTP.ACCEPTED` status instead of `HTTP.OK` to let them know the request would be processed shortly. But this overall
+approach goes very well with event driven architecture. Spring webflux along with Axon
+framework are two of the nicest tools to develop scalabale event driven app.
