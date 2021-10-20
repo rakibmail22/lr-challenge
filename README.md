@@ -1,6 +1,14 @@
 # lr-challenge
 The work in this repository demonstrate standard ways to write rest api using spring boot and data jpa with integration tests
 
+##How To Run
+##### Pre Requisite: Docker
+1. navigate to repository root
+2. Make the following scripts executable
+`chmod +x dockerBuild.sh`, `chmod +x runProd.sh`
+3. Build docker image `./dockerBuild.sh`
+4. Run docker image `./runProd.sh`
+
 ## Work Log
 ### Phase 1 (Time Spent: 3 Hours)
 #### Phase Deliverables
@@ -39,17 +47,29 @@ of different `ItemType` we can create separate tables for different item types w
 #### Design Choices - Phase 2
 1. Used Spring Data JPA as repository
 2. There is a scope for improvement while `Category` and `Item` but initially to keep the implementation simple didn't
-use any raw sql or jpql directly. Need to monitor constantly and if we see hibenate generating excessive select queries for
-selecting the child elements we can replace the Hibernate Object loading with optimized jpql
-3. The response of API endpoints could be more decorated and beautified. Also a lot more business validation's and formatted 
-validation message could be added. We can use HATEOS for decorate the API response further and make it more descriptive.
-4. Api documentationss can be improved a lot by adding more Swagger config
+use any raw sql or jpql directly. Need to monitor constantly and if we see Hibernate generating excessive select queries for
+selecting the child elements we can replace Hibernate Object loading with optimized jpql
+3. The response of API endpoints could be more decorated and beautified. Also, a lot more business validation's and formatted 
+validation message could be added. We can use HATEOAS for decorate the API response further and make it more descriptive.
+4. API documentation can be improved a lot by adding more Swagger config
 5. Logging can be improved a bit
 6. All the API endpoint should be protected (ideally with jwt / oauth token). But this should fall into a much broader scope
 in terms of both authentication and authorization
-7. Cors origin request should be restricted and api should be able to connect from a specific origin 
+7. CORS origin request should be restricted and api should be able to connect from a specific origin 
 (if not prepared to distribute in mass population). Spring Security has a lot of simple ways to add these restriction.
-8. Aother approach of resource create/update/delete would be make these process asynchronous in background and provide client
+8. Another approach of resource create/update/delete would be make these process asynchronous in background and provide client
 with a `HTTP.ACCEPTED` status instead of `HTTP.OK` to let them know the request would be processed shortly. But this overall
 approach goes very well with event driven architecture. Spring webflux along with Axon
-framework are two of the nicest tools to develop scalabale event driven app.
+framework are two of the nicest tools to develop scalable event driven app.
+
+### Phase 3 (Time Spent: 1.5 Hours)
+#### Phase Deliverables
+1. Layered Docker image building script with exploded jar. This layered images are easy to update
+when change in code or dependency occurs. 
+2. Docker container run script for prod profile with demonstration of property override
+on runtime for sensitive information
+#### Design Choices - Phase 3
+1. There are other approaches to override sensitive information. Like if we deploy our application
+in kubernetes cluster we can configure secrets from there to use as runtime environment variable that
+eventually will override the existing config, also we can pass external config file explicitly while
+deploying spring boot jar / exploded jar.

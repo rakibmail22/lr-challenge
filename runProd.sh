@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 #This script is for demonstration purpose only. This should never be in main repo
-java -jar -Dspring.profiles.active=prod ./build/libs/challenge-0.0.1-SNAPSHOT.jar --spring.datasource.username=prod --spring.datasource.password=prod
+docker run -e "SPRING_PROFILES_ACTIVE=prod" -e "SPRING_DATASOURCE_USERNAME=produser" -e "SPRING_DATASOURCE_PASSWORD=prodpass" -p 8080:8080 -t lforward/lr-challenge
