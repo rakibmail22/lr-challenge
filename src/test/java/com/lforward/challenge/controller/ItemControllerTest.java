@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -18,6 +17,7 @@ import static java.lang.String.format;
 import static java.lang.String.join;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,7 +41,8 @@ public class ItemControllerTest {
 
     @Test
     public void findByUuidAndCheckResponse() throws Exception {
-        mockMvc.perform(get(format(ITEM_API_URL, "findByUuidList/") + join(",", TST_ITM_UUID_1, TST_ITM_UUID_2)))
+        mockMvc.perform(get(format(ITEM_API_URL, "findByUuidList/") + join(",", TST_ITM_UUID_1, TST_ITM_UUID_2))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is(TST_ITM_NAME_1)))
                 .andExpect(jsonPath("$[1].name", is(TST_ITM_NAME_2)));
@@ -49,7 +50,8 @@ public class ItemControllerTest {
 
     @Test
     public void listByCategoryAndCheckResponse() throws Exception {
-        mockMvc.perform(get(format(ITEM_API_URL, "listByCategory/") + join("/", TST_CAT_UUID_1, "0")))
+        mockMvc.perform(get(format(ITEM_API_URL, "listByCategory/") + join("/", TST_CAT_UUID_1, "0"))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.length()", is(2)));
     }
@@ -58,8 +60,8 @@ public class ItemControllerTest {
     public void saveItemAndCheckResponse() throws Exception {
         mockMvc.perform(post(format(ITEM_API_URL, "save"))
                         .content(getJsonString(createMockItemRequest()))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is(TST_ITM_SAVE_NAME_1)));
     }
 
@@ -67,7 +69,7 @@ public class ItemControllerTest {
     public void updateItemAndCheckResponse() throws Exception {
         mockMvc.perform(put(format(ITEM_API_URL, "update"))
                         .content(getJsonString(createMockItemUpdateRequest()))
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(TST_ITM_SAVE_1_NAME_UPDATED)));
 
@@ -88,7 +90,7 @@ public class ItemControllerTest {
 
         mockMvc.perform(delete(format(ITEM_API_URL, "delete"))
                         .content(getJsonString(List.of(TST_ITM_UUID_3)))
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is(TST_ITM_NAME_3)));
 

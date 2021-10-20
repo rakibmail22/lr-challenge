@@ -29,7 +29,7 @@ The work in this repository demonstrate standard ways to write rest api using sp
 of different `ItemType` we can create separate tables for different item types with their specialized data. But this approach is needed 
    if bbusiness logic requires tight integration with in features for separate item types.
 
-### Phase 1 (Time Spent: 3 Hours)
+### Phase 2 (Time Spent: 5 Hours)
 #### Phase Deliverables
 1. API Endpoint according to business specification
 2. Integration test for Endpoint Controllers

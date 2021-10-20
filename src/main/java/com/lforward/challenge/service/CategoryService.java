@@ -66,6 +66,10 @@ public class CategoryService {
         return categoryRepository.findCategoryByUuidIn(Utils.nullSafeList(uuidList));
     }
 
+    public Category get(String uuid) {
+        return categoryRepository.findCategoryByUuid(uuid).orElseThrow(() -> new RecordNotFoundException("Category"));
+    }
+
     public Page<Category> listAll(int startOffset) {
         Pageable pageable = PageRequest.of(startOffset, ITEM_PER_PAGE, Sort.by("name"));
         return categoryRepository.findAll(pageable);

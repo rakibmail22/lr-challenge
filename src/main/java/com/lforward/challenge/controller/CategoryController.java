@@ -8,11 +8,16 @@ import com.lforward.challenge.validator.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
+
+import static com.lforward.challenge.utils.WebUtils.getLocation;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * @author bashir
@@ -21,7 +26,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = ("/v1/category/"))
+@RequestMapping(value = ("/v1/category/"), consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -29,10 +34,12 @@ public class CategoryController {
     private final EntityValidator entityValidator;
 
     @PostMapping(value = "/save")
-    public Category save(@RequestBody @Valid CategoryRequest request) {
+    public ResponseEntity<Category> save(@RequestBody @Valid CategoryRequest request) {
         log.debug("[CategoryController:create]: {}", request);
 
-        return categoryService.save(request);
+        Category category = categoryService.save(request);
+
+        return ResponseEntity.created(getLocation(category.getUuid())).body(category);
     }
 
     @PutMapping(value = "/update")
@@ -49,6 +56,13 @@ public class CategoryController {
         entityValidator.validateListSize(uuidList);
 
         return categoryService.delete(uuidList);
+    }
+
+    @GetMapping(value = "/uuid/{uuid}")
+    public Category get(@NotBlank String uuid) {
+        log.debug("[CategoryController:get]: {}", uuid);
+
+        return categoryService.get(uuid);
     }
 
     @GetMapping(value = "/findByUuid/{uuidList}")

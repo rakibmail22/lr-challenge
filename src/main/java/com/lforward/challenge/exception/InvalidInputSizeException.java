@@ -12,4 +12,8 @@ public class InvalidInputSizeException extends RuntimeException {
         super();
         this.errorMsg = errorMsg;
     }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
 }

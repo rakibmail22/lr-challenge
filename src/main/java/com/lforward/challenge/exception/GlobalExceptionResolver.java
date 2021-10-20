@@ -44,6 +44,16 @@ public class GlobalExceptionResolver {
         return createErrorResponse(apiError);
     }
 
+    @ExceptionHandler(InvalidInputSizeException.class)
+    public ResponseEntity<ApiError> invalidInputSizeExeption(InvalidInputSizeException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getErrorMsg());
+
+        log.debug("ApiError: apiError: {}", apiError);
+        log.debug("Exception ", ex);
+
+        return createErrorResponse(apiError);
+    }
+
     private ResponseEntity<ApiError> createErrorResponse(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.status());
     }
