@@ -1,9 +1,7 @@
-package com.lforward.challange.jpa;
+package com.lforward.challange.repository;
 
 import com.lforward.challange.model.entity.Category;
 import com.lforward.challange.model.entity.Item;
-import com.lforward.challange.repository.CategoryRepository;
-import com.lforward.challange.repository.ItemRepository;
 import com.lforward.challange.utils.TestUtils;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
@@ -41,7 +39,7 @@ public class ItemRepositoryTest {
         Item item1 = TestUtils.createMockItem(1);
         Item item2 = TestUtils.createMockItem(2);
 
-        assertThat(itemRepository.findAll()).hasSize(0);
+        assertThat(itemRepository.findAll()).hasSize(BASE_ITEM_COUNT);
 
         assertThat(em.contains(item1)).isFalse();
         assertThat(em.contains(item2)).isFalse();
@@ -58,13 +56,10 @@ public class ItemRepositoryTest {
 
         List<Item> items = itemRepository.findAll();
 
-        assertThat(items).hasSize(2);
-        assertThat(items).extracting(Item::getUuid).contains(appendOffset(1, TEST_ITEM_UUID), Index.atIndex(0));
-
-        assertThat(items.get(0).getCategoryList()).hasSize(0);
+        assertThat(items).hasSize(BASE_ITEM_COUNT + 2);
 
         itemRepository.deleteAll(items);
-        assertThat(categoryRepository.findAll()).hasSize(0);
+        assertThat(categoryRepository.findAll()).hasSize(BASE_CATEGORY_COUNT);
     }
 
     @Test
@@ -81,7 +76,7 @@ public class ItemRepositoryTest {
 
         flushAndDetach(item1, item2, category1);
 
-        item1 = itemRepository.findItemByUuid(appendOffset(1, TEST_ITEM_UUID));
+        item1 = itemRepository.findItemByUuid(appendOffset(1, TEST_ITEM_UUID)).orElseThrow();
         assertThat(item1.getCategoryList()).hasSize(1);
         assertThat(item1.getCategoryList()).extracting(Category::getName)
                 .contains(appendOffset(1, TEST_CATEGORY_NAME), Index.atIndex(0));
@@ -93,8 +88,8 @@ public class ItemRepositoryTest {
 
         flushAndDetach(item1, item2, category1, category2);
 
-        item1 = itemRepository.findItemByUuid(appendOffset(1, TEST_ITEM_UUID));
-        item2 = itemRepository.findItemByUuid(appendOffset(2, TEST_ITEM_UUID));
+        item1 = itemRepository.findItemByUuid(appendOffset(1, TEST_ITEM_UUID)).orElseThrow();
+        item2 = itemRepository.findItemByUuid(appendOffset(2, TEST_ITEM_UUID)).orElseThrow();
 
         assertThat(item1.getCategoryList()).hasSize(0);
         assertThat(item2.getCategoryList()).hasSize(2);

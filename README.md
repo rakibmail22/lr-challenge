@@ -28,4 +28,11 @@ The work in this repository demonstrate standard ways to write rest api using sp
 4. Currently `ItemType` is defined by hardcoded `Enum`. In an improvement it can be dynamic. Also, if we notice diverse data element
 of different `ItemType` we can create separate tables for different item types with their specialized data. But this approach is needed 
    if bbusiness logic requires tight integration with in features for separate item types.
+
+### Phase 1 (Time Spent: 3 Hours)
+#### Phase Deliverables
+1. API Endpoint according to business specification
+2. Integration test for Endpoint Controllers
+3. API validation and exception handling
+4. Added request param logging interceptor
    

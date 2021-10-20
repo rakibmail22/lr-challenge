@@ -1,8 +1,7 @@
-package com.lforward.challange.jpa;
+package com.lforward.challange.repository;
 
 import com.lforward.challange.model.entity.Attribute;
 import com.lforward.challange.model.entity.Category;
-import com.lforward.challange.repository.CategoryRepository;
 import com.lforward.challange.utils.TestUtils;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ public class CategoryRepositoryTest {
         int offset = 1;
         Category category = TestUtils.createMockCategory(offset);
 
-        assertThat(categoryRepository.findAll()).hasSize(0);
+        assertThat(categoryRepository.findAll()).hasSize(BASE_CATEGORY_COUNT);
 
         assertThat(em.contains(category)).isFalse();
 
@@ -47,15 +46,15 @@ public class CategoryRepositoryTest {
 
         assertThat(em.contains(category)).isFalse();
 
-        Category retrievedCategory = categoryRepository.findCategoryByUuid(appendOffset(offset, TEST_CATEGORY_UUID));
+        Category retrievedCategory = categoryRepository.findCategoryByUuid(appendOffset(offset, TEST_CATEGORY_UUID)).orElse(null);
 
-        assertThat(categoryRepository.findAll()).hasSize(1);
+        assertThat(categoryRepository.findAll()).hasSize(BASE_CATEGORY_COUNT + 1);
         assertThat(retrievedCategory).isNotNull();
         assertThat(retrievedCategory.getName()).isEqualTo(appendOffset(offset, TEST_CATEGORY_NAME));
         assertThat(retrievedCategory.getAttributeList()).hasSize(0);
 
         categoryRepository.delete(retrievedCategory);
-        assertThat(categoryRepository.findAll()).hasSize(0);
+        assertThat(categoryRepository.findAll()).hasSize(BASE_CATEGORY_COUNT);
     }
 
     @Test
@@ -65,9 +64,11 @@ public class CategoryRepositoryTest {
 
         flushAndDetach(category);
 
-        Category retrievedCategory = categoryRepository.findCategoryByUuid(appendOffset(offset, TEST_CATEGORY_UUID));
+        Category retrievedCategory = categoryRepository.findCategoryByUuid(appendOffset(offset, TEST_CATEGORY_UUID)).orElse(null);
 
         flushAndDetach(category);
+
+        assertThat(retrievedCategory).isNotNull();
 
         retrievedCategory.setName(TEST_CATEGORY_NAME_UPDATED);
 
@@ -94,7 +95,8 @@ public class CategoryRepositoryTest {
 
         flushAndDetach(category);
 
-        Category retrievedCategory = categoryRepository.findCategoryByUuid(appendOffset(offset, TEST_CATEGORY_UUID));
+        Category retrievedCategory = categoryRepository.findCategoryByUuid(appendOffset(offset, TEST_CATEGORY_UUID)).orElse(null);
+        assertThat(retrievedCategory).isNotNull();
         assertThat(retrievedCategory.getAttributeList()).hasSize(1);
         assertThat(retrievedCategory.getAttributeList())
                 .extracting(Attribute::getUuid)

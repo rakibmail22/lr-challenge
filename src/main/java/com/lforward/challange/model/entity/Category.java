@@ -1,5 +1,6 @@
 package com.lforward.challange.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Category extends Persistent {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categorySeq")
     @SequenceGenerator(name = "categorySeq", sequenceName = "category_sequence", allocationSize = 1)
     @EqualsAndHashCode.Include
+    @JsonIgnore
     private long id;
 
     @Column(length = 128, nullable = false)
