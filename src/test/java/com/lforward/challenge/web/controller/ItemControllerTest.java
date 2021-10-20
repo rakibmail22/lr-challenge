@@ -1,4 +1,4 @@
-package com.lforward.challenge.controller;
+package com.lforward.challenge.web.controller;
 
 import com.lforward.challenge.model.entity.Item;
 import com.lforward.challenge.repository.ItemRepository;

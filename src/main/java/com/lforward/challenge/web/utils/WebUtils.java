@@ -1,4 +1,4 @@
-package com.lforward.challenge.utils;
+package com.lforward.challenge.web.utils;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

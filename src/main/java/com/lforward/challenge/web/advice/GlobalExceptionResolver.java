@@ -1,5 +1,7 @@
-package com.lforward.challenge.exception;
+package com.lforward.challenge.web.advice;
 
+import com.lforward.challenge.exception.InvalidInputSizeException;
+import com.lforward.challenge.exception.RecordNotFoundException;
 import com.lforward.challenge.model.dto.ApiError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

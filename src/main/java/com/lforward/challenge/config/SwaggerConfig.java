@@ -18,7 +18,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.lforward.challenge.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.lforward.challenge.web.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

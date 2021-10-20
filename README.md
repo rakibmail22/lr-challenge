@@ -1,13 +1,14 @@
 # lr-challenge
 The work in this repository demonstrate standard ways to write rest api using spring boot and data jpa with integration tests
 
-##How To Run
+## How To Run
 ##### Pre Requisite: Docker
 1. navigate to repository root
 2. Make the following scripts executable
 `chmod +x dockerBuild.sh`, `chmod +x runProd.sh`
 3. Build docker image `./dockerBuild.sh`
 4. Run docker image `./runProd.sh`
+5. The app can be accessed in the following url http://localhost:8080/swagger-ui/#/
 
 ## Work Log
 ### Phase 1 (Time Spent: 3 Hours)
@@ -61,6 +62,7 @@ in terms of both authentication and authorization
 with a `HTTP.ACCEPTED` status instead of `HTTP.OK` to let them know the request would be processed shortly. But this overall
 approach goes very well with event driven architecture. Spring webflux along with Axon
 framework are two of the nicest tools to develop scalable event driven app.
+9. API field names can be improved
 
 ### Phase 3 (Time Spent: 1.5 Hours)
 #### Phase Deliverables

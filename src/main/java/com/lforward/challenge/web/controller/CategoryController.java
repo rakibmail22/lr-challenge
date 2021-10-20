@@ -1,10 +1,10 @@
-package com.lforward.challenge.controller;
+package com.lforward.challenge.web.controller;
 
 import com.lforward.challenge.model.dto.CategoryRequest;
 import com.lforward.challenge.model.entity.Category;
 import com.lforward.challenge.model.validation.UpdateValidationGroup;
 import com.lforward.challenge.service.CategoryService;
-import com.lforward.challenge.validator.EntityValidator;
+import com.lforward.challenge.web.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-import static com.lforward.challenge.utils.WebUtils.getLocation;
+import static com.lforward.challenge.web.utils.WebUtils.getLocation;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -31,7 +31,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    private final EntityValidator entityValidator;
+    private final RequestValidator requestValidator;
 
     @PostMapping(value = "/save")
     public ResponseEntity<Category> save(@RequestBody @Valid CategoryRequest request) {
@@ -53,7 +53,7 @@ public class CategoryController {
     public List<Category> delete(@RequestBody List<String> uuidList) {
         log.debug("[CategoryController:delete]: {}", String.join(",", uuidList));
 
-        entityValidator.validateListSize(uuidList);
+        requestValidator.validateListSize(uuidList);
 
         return categoryService.delete(uuidList);
     }
@@ -69,7 +69,7 @@ public class CategoryController {
     public List<Category> findByUuidList(@PathVariable List<String> uuidList) {
         log.debug("[CategoryController:listByUuid]: {}", uuidList);
 
-        entityValidator.validateListSize(uuidList);
+        requestValidator.validateListSize(uuidList);
 
         return categoryService.findByUuidList(uuidList);
     }

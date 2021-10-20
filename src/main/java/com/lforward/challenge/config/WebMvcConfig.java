@@ -1,6 +1,6 @@
 package com.lforward.challenge.config;
 
-import com.lforward.challenge.interceptor.RequestLogInterceptor;
+import com.lforward.challenge.web.interceptor.RequestLogInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

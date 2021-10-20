@@ -1,4 +1,4 @@
-package com.lforward.challenge.interceptor;
+package com.lforward.challenge.web.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

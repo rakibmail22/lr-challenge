@@ -1,4 +1,4 @@
-package com.lforward.challenge.validator;
+package com.lforward.challenge.web.validator;
 
 import com.lforward.challenge.exception.InvalidInputSizeException;
 import com.lforward.challenge.utils.Utils;
@@ -11,7 +11,7 @@ import java.util.List;
  * @since 19/10/21.
  */
 @Component
-public class EntityValidator {
+public class RequestValidator {
 
     public static final int DEFAULT_LIST_INPUT_MAX = 10;
     public static final int DEFAULT_LIST_INPUT_MIN = 1;
