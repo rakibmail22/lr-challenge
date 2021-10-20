@@ -9,6 +9,7 @@ The work in this repository demonstrate standard ways to write rest api using sp
 3. Build docker image `./dockerBuild.sh`
 4. Run docker image `./runProd.sh`
 5. The app can be accessed in the following url http://localhost:8080/swagger-ui/#/
+6. Database can be accesed at: http://localhost:8080/h2-console/l
 
 ## Work Log
 ### Phase 1 (Time Spent: 3 Hours)
@@ -49,20 +50,22 @@ of different `ItemType` we can create separate tables for different item types w
 1. Used Spring Data JPA as repository
 2. There is a scope for improvement while `Category` and `Item` but initially to keep the implementation simple didn't
 use any raw sql or jpql directly. Need to monitor constantly and if we see Hibernate generating excessive select queries for
-selecting the child elements we can replace Hibernate Object loading with optimized jpql
-3. The response of API endpoints could be more decorated and beautified. Also, a lot more business validation's and formatted 
+selecting the child elements we can replace Hibernate Object loading with optimized jpql. We can configure Hibernate second level
+cache for highly queried objects to further tune performance.
+3. We can also cache API response for highly queried endpoints that gets updated less frequenctly
+4. The response of API endpoints could be more decorated and beautified. Also, a lot more business validation's and formatted 
 validation message could be added. We can use HATEOAS for decorate the API response further and make it more descriptive.
-4. API documentation can be improved a lot by adding more Swagger config
-5. Logging can be improved a bit
-6. All the API endpoint should be protected (ideally with jwt / oauth token). But this should fall into a much broader scope
+5. API documentation can be improved a lot by adding more Swagger config
+6. Logging can be improved a bit
+7. All the API endpoint should be protected (ideally with jwt / oauth token). But this should fall into a much broader scope
 in terms of both authentication and authorization
-7. CORS origin request should be restricted and api should be able to connect from a specific origin 
+8. CORS origin request should be restricted and api should be able to connect from a specific origin 
 (if not prepared to distribute in mass population). Spring Security has a lot of simple ways to add these restriction.
-8. Another approach of resource create/update/delete would be make these process asynchronous in background and provide client
+9. Another approach of resource create/update/delete would be make these process asynchronous in background and provide client
 with a `HTTP.ACCEPTED` status instead of `HTTP.OK` to let them know the request would be processed shortly. But this overall
 approach goes very well with event driven architecture. Spring webflux along with Axon
 framework are two of the nicest tools to develop scalable event driven app.
-9. API field names can be improved & Repository test cases can be improved a lot
+10. API field names can be improved & Repository test cases can be improved a lot
 
 ### Phase 3 (Time Spent: 1.5 Hours)
 #### Phase Deliverables
