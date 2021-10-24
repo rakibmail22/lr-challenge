@@ -18,6 +18,7 @@ import static java.lang.String.join;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.TEXT_HTML;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,7 +43,7 @@ public class ItemControllerTest {
     @Test
     public void findByUuidAndCheckResponse() throws Exception {
         mockMvc.perform(get(format(ITEM_API_URL, "findByUuidList/") + join(",", TST_ITM_UUID_1, TST_ITM_UUID_2))
-                        .contentType(APPLICATION_JSON))
+                        .contentType(TEXT_HTML))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is(TST_ITM_NAME_1)))
                 .andExpect(jsonPath("$[1].name", is(TST_ITM_NAME_2)));
@@ -51,7 +52,7 @@ public class ItemControllerTest {
     @Test
     public void listByCategoryAndCheckResponse() throws Exception {
         mockMvc.perform(get(format(ITEM_API_URL, "listByCategory/") + join("/", TST_CAT_UUID_1, "0"))
-                        .contentType(APPLICATION_JSON))
+                        .contentType(TEXT_HTML))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.length()", is(2)));
     }

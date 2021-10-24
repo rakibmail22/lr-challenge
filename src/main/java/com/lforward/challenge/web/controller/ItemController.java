@@ -18,6 +18,7 @@ import java.util.List;
 
 import static com.lforward.challenge.web.utils.WebUtils.getLocation;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 /**
  * @author bashir
@@ -26,14 +27,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = ("/v1/item/"), consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = ("/v1/item/"), produces = APPLICATION_JSON_VALUE)
 public class ItemController {
 
     private final ItemService itemService;
 
     private final RequestValidator requestValidator;
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/save", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Item> save(@RequestBody @Valid ItemRequest request) {
         log.debug("[ItemController:save]: {}", request);
 
@@ -42,14 +43,14 @@ public class ItemController {
         return ResponseEntity.created(getLocation(item.getUuid())).body(item);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update", consumes = APPLICATION_JSON_VALUE)
     public Item update(@RequestBody @Validated(UpdateValidationGroup.class) ItemRequest request) {
         log.debug("[ItemController:update]: {}", request);
 
         return itemService.update(request);
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/delete", consumes = APPLICATION_JSON_VALUE)
     public List<Item> delete(@RequestBody List<String> uuidList) {
         log.debug("[ItemController:delete]: {}", String.join(",", uuidList));
 

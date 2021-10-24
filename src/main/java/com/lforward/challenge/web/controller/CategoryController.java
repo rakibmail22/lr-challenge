@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 import static com.lforward.challenge.web.utils.WebUtils.getLocation;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.*;
 
 /**
  * @author bashir
@@ -26,14 +26,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = ("/v1/category/"), consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = ("/v1/category/"), produces = APPLICATION_JSON_VALUE)
 public class CategoryController {
 
     private final CategoryService categoryService;
 
     private final RequestValidator requestValidator;
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/save", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> save(@RequestBody @Valid CategoryRequest request) {
         log.debug("[CategoryController:create]: {}", request);
 
@@ -42,14 +42,14 @@ public class CategoryController {
         return ResponseEntity.created(getLocation(category.getUuid())).body(category);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update", consumes = APPLICATION_JSON_VALUE)
     public Category update(@RequestBody @Validated(UpdateValidationGroup.class) CategoryRequest request) {
         log.debug("[CategoryController:update]: {}", request);
 
         return categoryService.update(request);
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/delete", consumes = APPLICATION_JSON_VALUE)
     public List<Category> delete(@RequestBody List<String> uuidList) {
         log.debug("[CategoryController:delete]: {}", String.join(",", uuidList));
 
